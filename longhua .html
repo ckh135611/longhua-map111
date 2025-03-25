@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>上海龙华地区综合地理信息系统</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
+    <style>
+        #map {
+            height: 800px;
+            width: 95%;
+            margin: 20px auto;
+            border: 3px solid #2c3e50;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .leaflet-popup-content {
+            max-width: 400px !important;
+            padding: 15px;
+            font-family: "Microsoft YaHei", sans-serif;
+        }
+        .location-img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin: 25px 0;
+            font-size: 2.4em;
+        }
+    </style>
+</head>
+<body>
+    <h1>上海龙华地区水文地标分布图</h1>
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        // ================= 地图配置修改部分 =================
+        // 初始化地图（新增缩放限制）
+        const map = L.map('map', {
+            minZoom: 14,  // 最小缩放级别
+            maxZoom: 18,  // 最大缩放级别
+            zoomControl: false
+        }).setView([31.175145, 121.451909], 14);
+
+        // 导航式2D地图（含河流信息）
+        L.tileLayer('https://webst0{s}.is.autonavi.com/appmaptile?style=7&x={x}&y={y}&z={z}', {
+            subdomains: ['1','2','3','4'],
+            attribution: '高德地图',
+            maxZoom: 18,
+            minZoom: 14
+        }).addTo(map);
+
+        // 自定义缩放控件
+        L.control.zoom({
+            position: 'topright',
+            zoomInTitle: '放大（最大18级）',
+            zoomOutTitle: '缩小（最小14级）'
+        }).addTo(map);
+
+        // ================= 严格保持原有地标数据 =================
+        const landmarks = [
+            {
+                name: "龙华寺",
+                coords: [31.175145, 121.451909],
+                content: `
+                    <h3 style="color:#c0392b; margin:0 0 10px 0;">🏯 龙华寺</h3>
+                    <p style="line-height:1.6; font-size:14px;">
+                        龙华寺是上海地区历史最悠久的佛教古刹之一，相传始建于三国东吴赤乌年间（238-250年），初建时为康僧会弘扬佛法的"茅茨设像"之地。历经多次兴废，现存建筑以晚清重建为主，但仍保留宋代"伽蓝七堂"制格局。寺内中轴线依次为弥勒殿、天王殿、大雄宝殿等六进殿宇，两侧辅以钟鼓楼、偏殿及牡丹园。寺内藏有明万历铜钟、宋代"空相寺"界石等珍贵文物，以"龙华晚钟"闻名的青龙铜钟曾是"沪城八景"之一。现为佛教活动中心和游览胜地，兼具宗教文化传承与历史教育功能。
+                    </p>
+                    <img class="location-img" 
+                         src="https://www.helloimg.com/i/2025/03/25/67e220d2bb9e7.jpg" 
+                         alt="龙华寺全景图"
+                         crossorigin="anonymous">
+                `
+            },
+            {
+                name: "龙华塔",
+                coords: [31.173631, 121.451979],
+                content: `
+                    <h3 style="color:#2980b9; margin:0 0 10px 0;">🗼 龙华塔</h3>
+                    <p style="line-height:1.6; font-size:14px;">
+                        龙华塔为上海现存最古老佛塔，相传创建于三国东吴赤乌十年（247年），现存塔基与塔身为北宋太平兴国二年（977年）重建的原物。塔为砖木结构阁楼式，七层八角，高40.64米，每层檐角挂铜铃，塔顶铁刹饰七相轮。建筑融合宋代艺术特色，屋檐斗拱精致，底层围廊保留宋代形制。历经多次修缮，2006年被列为全国重点文物保护单位。古塔与龙华寺共同构成"秋江塔影"胜景，是上海佛教文化象征与城市地标。
+                    </p>
+                    <img class="location-img" 
+                         src="https://www.helloimg.com/i/2025/03/25/67e2211ae603e.jpg" 
+                         alt="龙华塔景观"
+                         crossorigin="anonymous">
+                `
+            },
+            {
+                name: "龙华烈士陵园",
+                coords: [31.176022, 121.449393],
+                content: `
+                    <h3 style="color:#e67e22; margin:0 0 10px 0;">🕊️ 龙华烈士陵园</h3>
+                    <p style="line-height:1.6; font-size:14px;">
+                        前身为清代龙华公园，1950年代辟为烈士纪念地，安葬近现代革命烈士遗骸。园区涵盖原国民党淞沪警备司令部旧址及烈士就义地，1995年正式更名。陵园集纪念瞻仰、爱国主义教育于一体，通过纪念碑、烈士墓群和纪念馆展示革命历史，是缅怀英烈、传承红色精神的重要场所，兼具历史纪念与公共文化教育功能。
+                    </p>
+                    <img class="location-img" 
+                         src="https://www.helloimg.com/i/2025/03/25/67e22006b37d4.jpg" 
+                         alt="烈士陵园景观"
+                         crossorigin="anonymous">
+                `
+            },
+            {
+                name: "上海西岸",
+                coords: [31.179681, 121.463387],
+                content: `
+                    <h3 style="color:#27ae60; margin:0 0 10px 0;">🌉 上海西岸</h3>
+                    <p style="line-height:1.6; font-size:14px;">
+                        位于徐汇滨江，原为20世纪工业集聚区（北票码头、龙华机场等），2010年后通过"双A战略"（艺术与AI）转型为全球文化地标。保留工业遗存改造为龙美术馆（西岸馆）、余德耀美术馆等艺术空间，形成亚洲最大规模艺术区。拥有西岸艺术与设计博览会等品牌活动，融合文化传媒、金融与人工智能产业。滨江公共空间打造慢行系统、绿化和景观设施，成为集展览、休闲、生态于一体的世界级水岸，承载城市更新与创意产业发展的标杆功能。
+                    </p>
+                    <img class="location-img" 
+                         src="https://www.helloimg.com/i/2025/03/25/67e22006ee79a.jpg" 
+                         alt="西岸全景"
+                         crossorigin="anonymous">
+                `
+            }
+        ];
+
+        // ================= 保持原有标记系统 =================
+        landmarks.forEach(landmark => {
+            const marker = L.marker(landmark.coords, {
+                riseOnHover: true
+            }).bindPopup(landmark.content, {
+                maxWidth: 450,
+                autoPanPadding: [20, 20]
+            }).addTo(map);
+
+            new Image().src = landmark.content.match(/src="(.*?)"/)[1];
+        });
+
+        L.control.scale({position: 'bottomleft'}).addTo(map);
+        L.control.attribution({position: 'bottomright'})
+            .addAttribution('水文数据：高德地图 | 地标数据：用户提供')
+            .addTo(map);
+    </script>
+</body>
+</html>
